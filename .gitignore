@@ -1,0 +1,5 @@
+/magnet
+/downloads/
+.torrent.db*
+.DS_Store
+/never/
