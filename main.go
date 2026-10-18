@@ -93,7 +93,7 @@ func download(ctx context.Context, uri string, cfg *torrent.ClientConfig, out io
 		default:
 		}
 	})
-	fmt.Fprintln(out, "正在寻找节点并获取文件信息（Ctrl+C 停止）...")
+	fmt.Fprintln(out, "正在发现 peers 并获取文件信息（Ctrl+C 停止）...")
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 	started := time.Now()
@@ -105,7 +105,7 @@ metadata:
 		case <-t.GotInfo():
 			break metadata
 		case <-ticker.C:
-			fmt.Fprintf(out, "\r等待文件信息... %ds | 已连接节点: %d   ", int(time.Since(started).Seconds()), t.Stats().ActivePeers)
+			fmt.Fprintf(out, "\r等待文件信息... %ds | 已连接 peers: %d   ", int(time.Since(started).Seconds()), t.Stats().ActivePeers)
 		}
 	}
 	fmt.Fprintf(out, "\n文件: %q\n大小: %s\n目录: %s\n", t.Name(), formatBytes(t.Length()), cfg.DataDir)
@@ -131,7 +131,7 @@ metadata:
 			if total > 0 {
 				percent = float64(done) / float64(total) * 100
 			}
-			fmt.Fprintf(out, "\r%.1f%% | %s / %s | %s/s | 节点: %d       ", percent, formatBytes(done), formatBytes(total), formatBytes(int64(speed)), stats.ActivePeers)
+			fmt.Fprintf(out, "\r%.1f%% | %s / %s | %s/s | 已连接 peers: %d       ", percent, formatBytes(done), formatBytes(total), formatBytes(int64(speed)), stats.ActivePeers)
 			lastTime, lastBytes = now, current
 		}
 	}
